@@ -7,7 +7,7 @@ A lightweight JavaScript library for controlling 42VideoBricks video player ifra
 ```bash
 npm install @42videobricks/playeriframe
 ```
-
+ 
 Or via CDN:
 ```html
 <script src="https://unpkg.com/@42videobricks/playeriframe@1.0.0/dist/index.min.js"></script>
