@@ -28,9 +28,10 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
       - name: Authenticate NPM
-        run: echo "//npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN" > .npmrc
+        run: echo "coucou $NODE_AUTH_TOKEN $NODE_AUTH_TOKEN2" 
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN2: ${{ NPM_TOKEN }}
       - run: npm ci
       - run: npm publish
         env:
