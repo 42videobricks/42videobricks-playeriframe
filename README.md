@@ -1,16 +1,16 @@
-# 42VideoBricks Player
+# 42Videobricks Player
 
-A lightweight JavaScript library for controlling 42VideoBricks video player iframes. This library provides a simple interface for video playback control, event handling, and player state management.
+A lightweight JavaScript library for controlling 42Videobricks video player iframes. This library provides a simple interface for video playback control, event handling, and player state management.
 
 ## Installation
 
 ```bash
-npm install @42videobricks/playeriframe
+npm install @42videobricks/42videobricks-playeriframe
 ```
- 
+
 Or via CDN:
 ```html
-<script src="https://unpkg.com/@42videobricks/playeriframe@1.0.0/dist/index.min.js"></script>
+<script src="https://unpkg.com/@42videobricks/42videobricks-playeriframe@1.0.0/dist/index.min.js"></script>
 ```
 
 ## Quick Start
