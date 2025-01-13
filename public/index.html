@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="presentation">
+    <div class="section section-control">
+        <div class="section-action section-button">
+            <button id="play">Play</button>
+            <button id="pause">Pause</button>
+            <button id="mute">Mute</button>
+            <button id="unmute">unmute</button>
+            <button id="rewind">rewind</button>
+            <button id="forward">forward</button>
+            <button id="setSound" data-content="0.8">Set Sound</button>
+
+            <button id="enterFullscreen">Fullscreen</button>
+            <button id="leaveFullscreen">Inline</button>
+
+        </div>
+
+        <div class="section-infos section-button">
+            <button id="getVideoInfos">Get Video Infos</button>
+            <button id="getCurrentTime">Get Current Time</button>
+            <button id="getQuality">Get Quality Info</button>
+            <button id="getQualities">Get Qualities</button>
+            <button id="getLoop">Get Loop</button>
+            <button id="getSound">Get Sound</button>
+            <button id="isFullscreen">isFullscreen</button>
+        </div>
+        <div class="infos">
+            <div id="resultGetVideoInfos" class="json-container"></div>
+            <div id="resultGetCurrentTime" class="json-container"></div>
+            <div id="resultGetQuality" class="json-container"></div>
+            <div id="resultGetSound" class="json-container"></div>
+            <div id="resultGetLoop" class="json-container"></div>
+            <div id="resultIsFullscreen" class="json-container"></div>
+        </div>
+    </div>
+
+    <div class="section-affichage">
+        <div class="section section-video">
+            <iframe src="https://stream.42videobricks.com/WWhUSEJqbHRLeVR5MlVPOA==/player?a=1"
+                    allowfullscreen allow="fullscreen"></iframe>
+        </div>
+        <div id="resultatEvent" class="event-container"></div>
+    </div>
+</div>
+<script src="https://unpkg.com/@42videobricks/42videobricks-playeriframe@1.0.0/dist/index.min.js"></script>
+<script>
+    const iframe = document.querySelector('iframe');
+    const playerIframe = new Api42Videobricks(iframe);
+
+    const subscriber = ["canPlay", "error", "qualityChange", "timeUpdate", "videoEnded", "videoPaused", "videoPlaying", "volumeChange"]
+    subscriber.forEach((eventName) => {
+        playerIframe.on(eventName, (e) => {
+            logEvent(eventName, e)
+        })
+    })
+
+    // Fonction pour ajouter ou mettre à jour un événement dans l'affichage
+    function logEvent(eventName, eventData) {
+        const resultDiv = document.getElementById("resultatEvent");
+
+        // Recherche si un élément pour cet événement existe déjà
+        let eventElement = resultDiv.querySelector(`[data-event="${eventName}"]`);
+        let content = `<h4>${eventName}</h4>${renderJson(eventData)}`;
+
+        if (eventElement) {
+            // Met à jour le contenu de l'élément existant
+            eventElement.innerHTML = content
+        } else {
+            // Crée un nouvel élément pour l'événement
+            eventElement = document.createElement("div");
+            eventElement.className = "event-item";
+            eventElement.setAttribute("data-event", eventName); // Identifiant unique basé sur l'événement
+            eventElement.innerHTML = content
+            // Ajoute l'élément au début de la div (nouveaux événements en haut)
+            resultDiv.prepend(eventElement);
+        }
+    }
+
+
+    document.querySelectorAll('.section-action button').forEach(button => {
+        button.addEventListener('click', () => {
+            if (button.id in playerIframe) {
+                let functionName = button.id;
+                if (typeof playerIframe[functionName] === 'function') {
+                    playerIframe[functionName](parseFloat(button.dataset.content) ?? null);
+                } else {
+                    console.error(`${functionName} n'est pas une fonction.`);
+                }
+            }
+        });
+    })
+
+    document.querySelectorAll('.section-infos button').forEach(button => {
+        button.addEventListener('click', async () => {
+            if (button.id in playerIframe) {
+                let functionName = button.id;
+                if (typeof playerIframe[functionName] === 'function') {
+                    let data = await playerIframe[functionName]();
+                    document.querySelector("#result" + functionName.capitalize()).innerHTML = renderJson(data);
+                } else {
+                    console.error(`${functionName} n'est pas une fonction.`);
+                }
+            }
+        });
+    })
+
+    Object.defineProperty(String.prototype, 'capitalize', {
+        value: function () {
+            return this.charAt(0).toUpperCase() + this.slice(1);
+        },
+        enumerable: false
+    });
+
+
+    function renderJson(data) {
+        let html = '<ul>';
+        for (const key in data) {
+            if (key === 'poster') {
+                html += `<li>
+          <strong>${key}:</strong>
+          <a href="${data[key]}" target="_blank">${data[key]}</a><br>
+          <img src="${data[key]}" alt="Poster" style="max-width: 100px; margin-top: 5px;">
+        </li>`;
+            } else {
+                html += `<li><strong>${key}:</strong> ${data[key]}</li>`;
+            }
+        }
+        html += '</ul>';
+        return html;
+    }
+
+
+</script>
+</body>
+</html>
+
+

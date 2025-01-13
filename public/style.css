@@ -1,0 +1,222 @@
+/* Reset et styles de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #4CAF50;
+  --primary-hover: #45a049;
+  --secondary-color: #2196F3;
+  --secondary-hover: #1976D2;
+  --bg-light: #e9ecef;
+  --bg-medium: #dee2e6;
+  --text-color: #333;
+  --border-color: #ddd;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+body, html {
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+.presentation {
+	display: flex;
+}
+
+/* Layout sections */
+.section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.section-video {
+  background-color: var(--bg-light);
+  height: 30vh;
+  min-height: 30vh;
+  max-height: 30vh;
+  flex: 1;
+  flex-direction: column;
+}
+
+.section-video iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.section-text {
+  height: 45vh;
+  background-color: var(--bg-medium);
+  padding: 1.25rem;
+  text-align: center;
+}
+
+/* Info section */
+.infos {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+.infos div {
+  background-color: var(--bg-light);
+  padding: 0.25rem;
+  width: 100%;
+  line-height: 1.5rem;
+  min-height: 2rem;
+}
+
+/* Control sections */
+.section-control,
+.section-affichage {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Button styles */
+.section-button {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.625rem;
+  padding: 1.25rem;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.section-button button {
+  max-height: 2.5rem;
+  padding: 0.625rem 1.25rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 0.313rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  display: flex;
+}
+
+.section-button button:hover:not([disabled]) {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.section-button button:active:not([disabled]) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.section-button button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Control button icons */
+#play::before { content: '▶️'; }
+#pause::before { content: '\23F8'; }
+#mute::before { content: '\1F507'; }
+#unmute::before { content: '\1F50A'; }
+#rewind::before { content: '\23EA'; }
+#forward::before { content: '\23E9'; }
+#setSound::before { content: '\1F50B'; }
+
+.control-button span {
+  margin-left: 1.875rem;
+}
+
+#setSound {
+  background-color: var(--secondary-color);
+}
+
+#setSound:hover {
+  background-color: var(--secondary-hover);
+}
+
+/* Container styles */
+.json-container,
+.event-container {
+  font-family: Arial, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: #f9f9f9;
+  padding: 0.938rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.313rem;
+  box-shadow: var(--shadow-md);
+}
+
+.json-container {
+  max-width: 31.25rem;
+  margin: 1.25rem auto;
+}
+
+.event-container {
+  overflow-y: auto;
+  margin-top: 1.25rem;
+  align-self: stretch;
+}
+
+/* List styles */
+.json-container ul,
+.event-item ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.json-container a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.json-container a:hover {
+  text-decoration: underline;
+}
+
+.json-container img {
+  border: 1px solid #ccc;
+  border-radius: 0.188rem;
+}
+
+/* Event items */
+.event-item {
+  padding: 0.625rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.event-item h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--secondary-color);
+}
+
+.event-item ul li {
+  margin-bottom: 0.313rem;
+}
+
+/* Media queries */
+@media (max-width: 37.5rem) {
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .control-button {
+    width: 100%;
+    margin-bottom: 0.625rem;
+  }
+}
