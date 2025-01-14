@@ -28,7 +28,9 @@ jobs:
           node-version: 20
           registry-url: "https://registry.npmjs.org"
       - name: Write NPM_TOKEN
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+        run: echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" > ~/.npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Install dependencies and build 🔧
         run: npm ci
       - name: Publish package on NPM 📦
