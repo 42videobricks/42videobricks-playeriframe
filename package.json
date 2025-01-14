@@ -43,6 +43,7 @@
     "url": "https://github.com/42videobricks/playeriframe.git"
   },
   "dependencies": {
-    "jest-cli": "^29.7.0"
+    "jest-cli": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }
