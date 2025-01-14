@@ -10,7 +10,7 @@ npm install @42videobricks/42videobricks-playeriframe
 
 Or via CDN:
 ```html
-<script src="https://unpkg.com/@42videobricks/42videobricks-playeriframe@1.0.0/dist/index.min.js"></script>
+<script src="https://unpkg.com/@42videobricks/42videobricks-playeriframe@1.0.1/dist/index.min.js"></script>
 ```
 
 ## Quick Start
@@ -18,7 +18,7 @@ Or via CDN:
 ```html
 <iframe 
     id="myPlayer"
-    src="https://YOUR_VIDEO_URL"
+    src="https://stream.42videobricks.com/WWhUSEJqbHRLeVR5MlVPOA==/player"
     width="640" 
     height="360"    
     allow="autoplay; fullscreen"
