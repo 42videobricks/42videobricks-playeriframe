@@ -5,12 +5,12 @@ A lightweight JavaScript library for controlling 42Videobricks video player ifra
 ## Installation
 
 ```bash
-npm install @42videobricks/42videobricks-playeriframe
+npm install @42videobricks/42videobricks-playeriframe@latest
 ```
 
 Or via CDN:
 ```html
-<script src="https://unpkg.com/@42videobricks/42videobricks-playeriframe@1.0.3/dist/index.min.js"></script>
+<script src="https://unpkg.com/@42videobricks/42videobricks-playeriframe/dist/index.min.js"></script>
 ```
 
 ## Quick Start
