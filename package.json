@@ -1,6 +1,6 @@
 {
   "name": "@42videobricks/42videobricks-playeriframe",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A JavaScript library for controlling 42Videobricks player iframe",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
