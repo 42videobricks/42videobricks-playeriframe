@@ -17,6 +17,7 @@
             <button id="unmute">unmute</button>
             <button id="rewind">rewind</button>
             <button id="forward">forward</button>
+            <button id="reloadIframe">reloadIframe</button>
             <button id="setSound" data-content="0.8">Set Sound</button>
 
             <button id="enterFullscreen">Fullscreen</button>
@@ -45,13 +46,13 @@
 
     <div class="section-affichage">
         <div class="section section-video">
-            <iframe src="https://stream.42videobricks.com/WWhUSEJqbHRLeVR5MlVPOA==/player?a=1"
+            <iframe src="https://vpaas-api-dev.delta.0pb.org/MWNzMFlDdklWcWVqajRjTw==/player?a=1"
                     allowfullscreen allow="fullscreen"></iframe>
         </div>
         <div id="resultatEvent" class="event-container"></div>
     </div>
 </div>
-<script src="https://unpkg.com/@42videobricks/42videobricks-playeriframe@1.0.0/dist/index.min.js"></script>
+<script src="/index.js"></script>
 <script>
     const iframe = document.querySelector('iframe');
     const playerIframe = new Api42Videobricks(iframe);

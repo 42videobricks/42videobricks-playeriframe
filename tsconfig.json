@@ -1,21 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "lib": ["ES6", "DOM"],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "target": "es2020",
+    "module": "esnext",
+    "lib": ["dom", "es2020"],
+    "declaration": true,
+    "declarationDir": "dist/types",
     "strict": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "types": ["cypress"]
+    "outDir": "dist",
+    "sourceMap": true
   },
-  "include": [
-    "cypress/**/*.ts", // Vérifiez si vos fichiers sont bien ici
-    "cypress.config.ts" // Si vous avez un fichier de config TypeScript pour Cypress
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
