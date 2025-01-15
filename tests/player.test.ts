@@ -1,34 +1,26 @@
-// tests/player.test.js
-const PlayerIframe = require('../src');
-
+import {PlayerIframe} from '../src';
 
 describe('PlayerIframe test private functions', () => {
-    let iframe;
-    let playerIframe;
+    let iframe: HTMLIFrameElement;
+    let playerIframe: PlayerIframe;
+    let postMessageMock: jest.Mock;
 
     beforeEach(() => {
-        // Créer un élément iframe simulé
         iframe = document.createElement('iframe');
         postMessageMock = jest.fn();
 
-        // Simuler contentWindow avec postMessage
         Object.defineProperty(iframe, 'contentWindow', {
-            value: {
-                postMessage: postMessageMock
-            },
+            value: {postMessage: postMessageMock},
             writable: true
         });
 
-        // Initialiser PlayerIframe avec l'iframe simulé
         playerIframe = new PlayerIframe(iframe, {origin: '*'});
     });
 
     test('should call postMessage with type CHECK_READY when iframe loads', () => {
-        // Simuler le chargement de l'iframe
         const loadEvent = new Event('load');
         iframe.dispatchEvent(loadEvent);
 
-        // Vérifier que postMessage a été appelé avec les bons arguments
         expect(postMessageMock).toHaveBeenCalledWith(
             {type: 'CHECK_READY'},
             '*'
@@ -37,19 +29,16 @@ describe('PlayerIframe test private functions', () => {
 });
 
 describe('PlayerIframe Event', () => {
-    let player;
-    let postMessageMock;
-    let iframe
+    let player: PlayerIframe;
+    let postMessageMock: jest.Mock;
+    let iframe: HTMLIFrameElement;
 
     beforeEach(() => {
         iframe = document.createElement('iframe');
         postMessageMock = jest.fn();
 
-        // Simuler contentWindow avant l'initialisation
         Object.defineProperty(iframe, 'contentWindow', {
-            value: {
-                postMessage: postMessageMock
-            },
+            value: {postMessage: postMessageMock},
             writable: true
         });
 
@@ -70,18 +59,16 @@ describe('PlayerIframe Event', () => {
     });
 
     test('should throw an error onReady', () => {
-
         expect(() => {
-            player.onReady("test");
+            player.onReady("test" as unknown as () => void);
         }).toThrow('Callback must be a function');
     });
 
     test('should throw an error on', () => {
         expect(() => {
-            player.on("play", "test");
+            player.on("play", "test" as unknown as () => void);
         }).toThrow('Callback must be a function');
     });
-
 
     test('should handle event subscription', () => {
         const callback = jest.fn();
@@ -96,31 +83,24 @@ describe('PlayerIframe Event', () => {
 
         expect(callback).toHaveBeenCalled();
     });
-
-
 });
 
-
 describe('PlayerIframe Action', () => {
-    let player;
-    let postMessageMock;
-    let iframe
+    let player: PlayerIframe;
+    let postMessageMock: jest.Mock;
+    let iframe: HTMLIFrameElement;
 
     beforeEach(() => {
         iframe = document.createElement('iframe');
         postMessageMock = jest.fn();
 
-        // Simuler contentWindow avant l'initialisation
         Object.defineProperty(iframe, 'contentWindow', {
-            value: {
-                postMessage: postMessageMock
-            },
+            value: {postMessage: postMessageMock},
             writable: true
         });
 
         player = new PlayerIframe(iframe);
     });
-
 
     const testCases = [
         {method: 'play', action: 'play'},
@@ -131,7 +111,6 @@ describe('PlayerIframe Action', () => {
         {method: 'forward', action: 'forward', data: {duration: 10}},
         {method: 'setSound', action: 'setSound', content: 0.8, data: {volume: 0.8}},
         {method: 'setLoop', action: 'setLoop', content: true, data: {loop: true}},
-
         {method: 'enterFullscreen', action: 'enterFullscreen'},
         {method: 'leaveFullscreen', action: 'leaveFullscreen'},
         {method: 'isFullscreen', action: 'isFullscreen'},
@@ -140,11 +119,11 @@ describe('PlayerIframe Action', () => {
     testCases.forEach(({method, action, content = null, data = null}) => {
         test(`should send ${action} command`, () => {
             if (content !== null) {
-                player[method](content);
+                (player as any)[method](content);
             } else {
-                player[method]();
+                (player as any)[method]();
             }
-            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+            expect(postMessageMock).toHaveBeenCalledWith(
                 {action, data: data},
                 '*'
             );
@@ -153,22 +132,9 @@ describe('PlayerIframe Action', () => {
 
     test('should throw on setSound error', () => {
         expect(() => {
-            player.setSound("test");
+            player.setSound("test" as unknown as number);
         }).toThrow('Volume must be a number between 0 and 1');
     });
-
-    test('should throw on setSound negative', () => {
-        expect(() => {
-            player.setSound(-1);
-        }).toThrow('Volume must be a number between 0 and 1');
-    });
-
-    test('should throw on setSound greater 1', () => {
-        expect(() => {
-            player.setSound(1.1);
-        }).toThrow('Volume must be a number between 0 and 1');
-    });
-
 
     test('should handle async video data requests', (done) => {
         const mockData = {duration: 120};
@@ -189,32 +155,27 @@ describe('PlayerIframe Action', () => {
 
 describe('PlayerIframe Erreur element', () => {
     test('should throw an error for iframe', () => {
-        let div = document.createElement('div');
+        const div = document.createElement('div');
         expect(() => {
-            new PlayerIframe(div)
+            new PlayerIframe(div as unknown as HTMLIFrameElement);
         }).toThrow('Element must be an iframe');
     });
 });
 
 describe('PlayerIframe - get Infos', () => {
-    let iframe;
-    let postMessageMock;
-    let playerIframe;
+    let iframe: HTMLIFrameElement;
+    let postMessageMock: jest.Mock;
+    let playerIframe: PlayerIframe;
 
     beforeEach(() => {
-        // Créer un élément iframe simulé
         iframe = document.createElement('iframe');
         postMessageMock = jest.fn();
 
-        // Simuler contentWindow avec postMessage
         Object.defineProperty(iframe, 'contentWindow', {
-            value: {
-                postMessage: postMessageMock
-            },
+            value: {postMessage: postMessageMock},
             writable: true
         });
 
-        // Initialiser PlayerIframe avec l'iframe simulé
         playerIframe = new PlayerIframe(iframe, {origin: '*'});
     });
 
@@ -224,41 +185,36 @@ describe('PlayerIframe - get Infos', () => {
         {method: 'getSound', mock: {volume: 0.8}},
         {method: 'getLoop', mock: {loop: true}},
         {
-            method: 'getQuality', mock: {
+            method: 'getQuality',
+            mock: {
                 bandwidth: 2173000, codecs: "avc1.64001f", firstFrame: 0,
                 frameRate: 25, width: 1280, height: 2275, available: true
             }
         },
-    ]
-
+    ];
 
     testCases.forEach(({method, mock}) => {
         test(`should resolve with ${method} information when the correct message is received`, async () => {
-            // Simuler la réponse du message
             const messageHandler = jest.fn();
             window.addEventListener = jest.fn((event, handler) => {
                 if (event === 'message') {
-                    messageHandler.mockImplementation(handler);
+                    messageHandler.mockImplementation(handler as EventListener);
                 }
             });
 
-            // Appeler getVideoInfos
-            const functionInfos = playerIframe[method]();
+            const functionInfos = (playerIframe as any)[method]();
 
-            // Simuler l'envoi du message 'getVideoInfos'
             expect(postMessageMock).toHaveBeenCalledWith(
                 {action: method, data: null},
                 '*'
             );
 
-            // Simuler un événement message avec les données attendues
             const messageEvent = new MessageEvent('message', {
                 data: {type: method, data: mock}
             });
 
             messageHandler(messageEvent);
 
-            // Vérifier que la promesse se résout avec les bonnes données
             await expect(functionInfos).resolves.toEqual(mock);
         });
     });

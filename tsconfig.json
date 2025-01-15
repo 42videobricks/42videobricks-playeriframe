@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "target": "es2020",
     "module": "esnext",
     "lib": ["dom", "es2020"],
