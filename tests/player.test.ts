@@ -1,5 +1,4 @@
-import PlayerIframe from "../src";
-
+import PlayerIframe from '../src';
 
 describe('PlayerIframe test function checkready', () => {
     let iframe: HTMLIFrameElement;
