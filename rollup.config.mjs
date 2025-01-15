@@ -5,6 +5,8 @@ import commonjs from '@rollup/plugin-commonjs';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts';
+import strip from 'rollup-plugin-strip';
+
 
 const config = [
     {
@@ -14,7 +16,9 @@ const config = [
                 file: 'dist/index.js',
                 format: 'umd',
                 name: 'Api42Videobricks',
-                sourcemap: true
+                sourcemap: true,
+                exports: 'default',
+
             },
             {
                 file: 'dist/index.esm.js',
@@ -25,10 +29,15 @@ const config = [
                 file: 'dist/index.min.js',
                 format: 'umd',
                 name: 'Api42Videobricks',
-                plugins: [terser()],
+                plugins: [terser({
+                    compress: {
+                        pure_funcs: ['console.log'], // Supprime tous les `console.log`
+                    },
+                })],
                 sourcemap: true
             }
         ],
+
         plugins: [
             resolve(),
             commonjs(),

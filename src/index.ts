@@ -19,7 +19,7 @@ interface CommandData {
     data?: any;
 }
 
-export class PlayerIframe {
+export default class PlayerIframe {
     #window: Window;
     #element: HTMLIFrameElement;
     #pendingSubscriptions: Set<string>;
@@ -32,11 +32,10 @@ export class PlayerIframe {
      * @param {HTMLIFrameElement} element - The iframe element
      * @param {PlayerOptions} options - Configuration options
      */
-    constructor(element: HTMLIFrameElement, options: PlayerOptions = { origin: '*' }) {
+    constructor(element: HTMLIFrameElement, options: PlayerOptions = {origin: '*'}) {
         if (!(element instanceof HTMLIFrameElement)) {
             throw new TypeError('Element must be an iframe');
         }
-
         this.#window = element.ownerDocument.defaultView!;
         this.#element = element;
         this.#origin = options.origin || '*';
@@ -53,8 +52,11 @@ export class PlayerIframe {
 
         window.addEventListener('message', (event: MessageEvent) => {
             if (this.#origin !== '*' && event.origin !== this.#origin) return;
-
-            const { type, data } = event.data || {};
+            const {type, data} = event.data || {};
+            if (!type && !data ) {
+                /* @__PURE__ */
+                console.log('Received message:', type, data);//cas pour les tests unitaire
+            }
             if (type === 'IFRAME_READY') {
                 this.#handleIframeReady();
             } else if (type) {
@@ -62,6 +64,7 @@ export class PlayerIframe {
             }
         });
     }
+
 
     #checkIframeReady(): void {
         this.#element.contentWindow?.postMessage({
@@ -185,14 +188,14 @@ export class PlayerIframe {
         if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 1) {
             throw new RangeError('Volume must be a number between 0 and 1');
         }
-        return this.#sendCommand('setSound', { volume: value });
+        return this.#sendCommand('setSound', {volume: value});
     }
 
     /**
      * @param {boolean} value - Loop state
      */
     setLoop(value: boolean): void {
-        return this.#sendCommand('setLoop', { loop: !!value });
+        return this.#sendCommand('setLoop', {loop: !!value});
     }
 
     enterFullscreen(): void {
@@ -207,14 +210,14 @@ export class PlayerIframe {
      * @param {number} duration - Duration to rewind in seconds
      */
     rewind(duration: number = 10): void {
-        return this.#sendCommand('rewind', { duration });
+        return this.#sendCommand('rewind', {duration});
     }
 
     /**
      * @param {number} duration - Duration to forward in seconds
      */
     forward(duration: number = 10): void {
-        return this.#sendCommand('forward', { duration });
+        return this.#sendCommand('forward', {duration});
     }
 
     #sendCommand(action: string, data: any = null): void {
@@ -264,5 +267,10 @@ export class PlayerIframe {
 
     isFullscreen(): Promise<boolean> {
         return this.#requestVideoData<boolean>('isFullscreen');
+    }
+
+    // Getter pour permettre le test de la propriété privée
+    getOrigin() {
+        return this.#origin;
     }
 }
