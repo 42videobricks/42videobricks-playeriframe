@@ -53,7 +53,7 @@ export default class PlayerIframe {
         window.addEventListener('message', (event: MessageEvent) => {
             if (this.#origin !== '*' && event.origin !== this.#origin) return;
             const {type, data} = event.data || {};
-            if (!type && !data ) {
+            if (!type && !data) {
                 /* @__PURE__ */
                 console.log('Received message:', type, data);//cas pour les tests unitaire
             }
@@ -185,10 +185,29 @@ export default class PlayerIframe {
      * @param {number} value - Volume level between 0 and 1
      */
     setSound(value: number): void {
-        if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 1) {
+        if (!Number.isFinite(value) || value < 0 || value > 1) {
             throw new RangeError('Volume must be a number between 0 and 1');
         }
         return this.#sendCommand('setSound', {volume: value});
+    }
+
+    /**
+     * @param {number} value - The time to target
+     * @param data
+     */
+    addTargetTime(value: number, data: {}): void {
+        return this.#sendCommand('addTargetTime', {time: value, data: data || {}});
+    }
+
+    /**
+     * @param {number} value - The time to target to remove
+     */
+    removeTargetTime(value: number): void {
+        return this.#sendCommand('removeTargetTime', {time: value});
+    }
+
+    clearTargetTimes(): void {
+        return this.#sendCommand('clearTargetTimes');
     }
 
     /**

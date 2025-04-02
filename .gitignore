@@ -8,6 +8,10 @@ lerna-debug.log*
 .pnpm-debug.log*
 .idea/
 public/index.js
+DEPLOY.md
+copy_script.sh
+cypress.config.ts
+yarn.lock
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 

@@ -19,6 +19,7 @@
             <button id="forward">forward</button>
             <button id="reloadIframe">reloadIframe</button>
             <button id="setSound" data-content="0.8">Set Sound</button>
+            <button id="addTargetTime" data-content="5">Set Target Time at 5</button>
 
             <button id="enterFullscreen">Fullscreen</button>
             <button id="leaveFullscreen">Inline</button>
@@ -57,7 +58,7 @@
     const iframe = document.querySelector('iframe');
     const playerIframe = new Api42Videobricks(iframe);
 
-    const subscriber = ["canPlay", "error", "qualityChange", "timeUpdate", "videoEnded", "videoPaused", "videoPlaying", "volumeChange"]
+    const subscriber = ["canPlay", "error", "qualityChange", "timeUpdate", "videoEnded", "videoPaused", "videoPlaying", "volumeChange","videoReached"]
     subscriber.forEach((eventName) => {
         playerIframe.on(eventName, (e) => {
             logEvent(eventName, e)

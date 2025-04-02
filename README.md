@@ -61,6 +61,11 @@ player.setSound(0.5); // 0 to 1
 player.rewind(10); // Rewind 10 seconds
 player.forward(10); // Forward 10 seconds
 
+// Target Times
+player.addTargetTime(30, { label: 'Chapitre 1' }); // Add a target time at 30 seconds
+player.removeTargetTime(30); // Remove a specific target time
+player.clearTargetTimes(); // Remove all target times
+
 // Fullscreen if the user interacted with the player beforehand
 player.enterFullscreen();
 player.leaveFullscreen();
@@ -122,6 +127,9 @@ new Api42Videobricks(element, options)
 - `leaveFullscreen()`: Exit fullscreen
 - `rewind(duration)`: Rewind video
 - `forward(duration)`: Forward video
+- `addTargetTime(time, data)`: Add a target time with optional data
+- `removeTargetTime(time)`: Remove a specific target time
+- `clearTargetTimes()`: Remove all target times
 
 #### Event Handling
 - `onReady(callback)`: Register ready callback
@@ -155,7 +163,7 @@ On some browsers (like Chrome), trying to unmute (`unmute()`) without user inter
 
 ### Fullscreen
 Entering fullscreen mode (`enterFullscreen()`) requires an explicit user gesture (e.g., click or key press). Otherwise, the following error will be thrown:  
-`Failed to execute ‘requestFullscreen’ on ‘Element’: API can only be initiated by a user gesture.`
+`Failed to execute 'requestFullscreen' on 'Element': API can only be initiated by a user gesture.`
 
 
 ## Browser Support
